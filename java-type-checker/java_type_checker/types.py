@@ -10,9 +10,15 @@ class Type(object):
         self.is_instantiable = False
 
     def is_subtype_of(self, other):
-        """ True if this type can be used where the other type is expected.
-        """
-        return True  # TODO: implement
+        if self == other:
+            return True
+        elif other in self.direct_supertypes:
+            return True
+        else:
+            for i in range(len(self.direct_supertypes)):
+                supertype = self.direct_supertypes[i]
+                return supertype.is_subtype_of(other)
+        return False
 
     def is_supertype_of(self, other):
         """ Convenience counterpart to is_subtype_of().
